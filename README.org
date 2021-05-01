@@ -1,0 +1,19 @@
+#+TITLE: Shopping List Manager
+
+This is a personal side-project to have a faster, simpler way to write a shopping list for the specific use-case of planning ahead about 2 weeks, in which we go to one shop once, and to another twice. Since we have a list of common recipes, it's also annoying to have to re-enter all of those ingredients every time we want to make this recipe.
+
+* Information about the README
+This readme is written in [[https://orgmode.org/][orgmode]], and is therefore best viewed in [[https://www.gnu.org/software/emacs/][emacs]] with the org package enabled (it's enabled by default).
+
+When you see code like ~this~ that starts with a ~$~, that means it refers to a shell command. As an example, ~$ echo "Hello World"~ refers to running the command ~echo "Hello World"~ on the command line. A [[https://en.wikipedia.org/wiki/POSIX][POSIX]]-compliant shell is assumed.
+
+* Running the project
+This project is set up using [[https://ihp.digitallyinduced.com/Guide/index.html][IHP]].
+
+** Setting up a development environment
+1. [[https://nixos.org/guides/install-nix.html][Install nix]]
+2. Install direnv and [[https://direnv.net/docs/hook.html][hook it into your shell]]
+   - You can install direnv using nix: ~$ nix-env -iA nixpkgs.direnv~
+3. Start the development server using ~$ ./start~. Your browser should open ~localhost:8080~ and ~localhost:8081~. The first is the actual web-app, the second are the browser-based development tools provided by IHP. This might take a while the first time.
+
+If there are any issues setting up this environment, refer to the [[https://ihp.digitallyinduced.com/Guide/index.html][IHP Guide]] ([[https://ihp.digitallyinduced.com/Guide/troubleshooting.html][Troubleshooting]]), or get help in the [[https://join.slack.com/t/ihpframework/shared_invite/zt-nvf0lyte-PBUBH8_U_dndhfFr~s7Kxg][IHP Slack]].
