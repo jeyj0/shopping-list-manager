@@ -3,7 +3,10 @@ import Web.View.Prelude
 
 import Web.Controller.Static
 
-data ShowView = ShowView { group :: Group }
+data ShowView = ShowView
+  { group :: Group
+  , users :: [User]
+  }
 
 instance View ShowView where
   html ShowView { .. } = [hsx|
@@ -13,4 +16,13 @@ instance View ShowView where
       </ol>
     </nav>
     <h1>{get #name group}</h1>
+    <h2>Users</h2>
+    <ul>
+      {forEach users renderUser}
+    </ul>
   |]
+
+renderUser :: User -> Html
+renderUser user = [hsx|
+  <li>{get #email user}</li>
+|]
