@@ -65,8 +65,6 @@ instance Controller UsersController where
       accessDeniedUnless $ userId == currentUserId
       
       user <- fetch userId
-        -- >>= fetchRelated #userGroupMaps
-        -- >>= fetchRelated #groups
       groups :: [Group] <- sqlQuery "SELECT * FROM groups as g INNER JOIN group_user_maps as m ON g.id = m.group_id WHERE m.user_id = ?" (Only userId)
       render DashboardView { .. }
 
