@@ -1,6 +1,9 @@
 module Web.Controller.Static where
+
 import Web.Controller.Prelude
-import Web.View.Static.Welcome
+import Web.Controller.Sessions
 
 instance Controller StaticController where
-    action WelcomeAction = render WelcomeView
+    action StartPageAction = case currentUserOrNothing of
+      Just user -> redirectTo DashboardAction { userId = get #id user }
+      Nothing -> redirectTo NewSessionAction
