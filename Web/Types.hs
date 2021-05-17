@@ -24,13 +24,9 @@ data SessionsController
   deriving (Eq, Show, Data)
 
 data UsersController
-    = UsersAction
-    | DashboardAction
+    = DashboardAction
     | NewUserAction
-    | ShowUserAction { userId :: !(Id User) }
     | CreateUserAction
-    | EditUserAction { userId :: !(Id User) }
-    | UpdateUserAction { userId :: !(Id User) }
     | DeleteUserAction { userId :: !(Id User) }
     deriving (Eq, Show, Data)
 
@@ -39,7 +35,5 @@ data GroupsController
     | NewGroupAction
     | ShowGroupAction { groupId :: !(Id Group) }
     | CreateGroupAction
-    | EditGroupAction { groupId :: !(Id Group) }
-    | UpdateGroupAction { groupId :: !(Id Group) }
     | DeleteGroupAction { groupId :: !(Id Group) }
     deriving (Eq, Show, Data)

@@ -1,18 +1,12 @@
 module Web.Controller.Groups where
 
 import Web.Controller.Prelude
-import Web.View.Groups.Index
 import Web.View.Groups.New
-import Web.View.Groups.Edit
 import Web.View.Groups.Show
 
 instance Controller GroupsController where
     beforeAction = ensureIsUser
   
-    action GroupsAction = do
-        groups <- query @Group |> fetch
-        render IndexView { .. }
-
     action NewGroupAction = do
         ensureIsUser
         let group = newRecord
@@ -20,22 +14,9 @@ instance Controller GroupsController where
 
     action ShowGroupAction { groupId } = do
         group <- fetch groupId
+        user <- fetch currentUserId
+        users :: [User] <- sqlQuery "SELECT u.* FROM users as u INNER JOIN group_user_maps as m ON m.user_id = u.id WHERE m.group_id = ?" (Only groupId)
         render ShowView { .. }
-
-    action EditGroupAction { groupId } = do
-        group <- fetch groupId
-        render EditView { .. }
-
-    action UpdateGroupAction { groupId } = do
-        group <- fetch groupId
-        group
-            |> buildGroup
-            |> ifValid \case
-                Left group -> render EditView { .. }
-                Right group -> do
-                    group <- group |> updateRecord
-                    setSuccessMessage "Group updated"
-                    redirectTo EditGroupAction { .. }
 
     action CreateGroupAction = do
         let group = newRecord @Group
@@ -60,7 +41,7 @@ instance Controller GroupsController where
         group <- fetch groupId
         deleteRecord group
         setSuccessMessage "Group deleted"
-        redirectTo GroupsAction
+        redirectTo DashboardAction
 
 buildGroup group = group
     |> fill @'["name"]

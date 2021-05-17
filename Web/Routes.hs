@@ -12,4 +12,3 @@ instance AutoRoute UsersController
 
 
 instance AutoRoute GroupsController
-
