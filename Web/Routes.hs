@@ -10,3 +10,6 @@ instance AutoRoute SessionsController
 
 instance AutoRoute UsersController
 
+
+instance AutoRoute GroupsController
+

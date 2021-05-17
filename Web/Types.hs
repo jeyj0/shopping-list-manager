@@ -33,3 +33,13 @@ data UsersController
     | UpdateUserAction { userId :: !(Id User) }
     | DeleteUserAction { userId :: !(Id User) }
     deriving (Eq, Show, Data)
+
+data GroupsController
+    = GroupsAction
+    | NewGroupAction
+    | ShowGroupAction { groupId :: !(Id Group) }
+    | CreateGroupAction
+    | EditGroupAction { groupId :: !(Id Group) }
+    | UpdateGroupAction { groupId :: !(Id Group) }
+    | DeleteGroupAction { groupId :: !(Id Group) }
+    deriving (Eq, Show, Data)

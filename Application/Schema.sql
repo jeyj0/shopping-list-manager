@@ -6,3 +6,17 @@ CREATE TABLE users (
     locked_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
     failed_login_attempts INT DEFAULT 0 NOT NULL
 );
+CREATE TABLE ingredients (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL
+);
+CREATE TABLE groups (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL
+);
+CREATE TABLE group_user_maps (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    user_id UUID NOT NULL,
+    group_id UUID NOT NULL
+);
+ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
+ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
