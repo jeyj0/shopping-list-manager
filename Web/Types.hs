@@ -37,3 +37,11 @@ data GroupsController
     | CreateGroupAction
     | DeleteGroupAction { groupId :: !(Id Group) }
     deriving (Eq, Show, Data)
+
+data InvitationsController
+    = InvitationsAction
+    | NewInvitationAction
+    | ShowInvitationAction { invitationId :: !(Id Invitation) }
+    | CreateInvitationAction
+    | DeleteInvitationAction { invitationId :: !(Id Invitation) }
+    deriving (Eq, Show, Data)
