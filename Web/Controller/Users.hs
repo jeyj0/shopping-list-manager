@@ -50,8 +50,7 @@ instance Controller UsersController where
                         |> set #passwordHash hashed
                         |> createRecord
                     setSuccessMessage "You have registered successfully"
-                    let userId = get #id user
-                    redirectTo DashboardAction { .. }
+                    redirectTo DashboardAction
 
     action DeleteUserAction { userId } = do
         user <- fetch userId
@@ -59,13 +58,11 @@ instance Controller UsersController where
         setSuccessMessage "User deleted"
         redirectTo UsersAction
 
-    action DashboardAction { userId } = do
+    action DashboardAction = do
       ensureIsUser
 
-      accessDeniedUnless $ userId == currentUserId
-      
-      user <- fetch userId
-      groups :: [Group] <- sqlQuery "SELECT * FROM groups as g INNER JOIN group_user_maps as m ON g.id = m.group_id WHERE m.user_id = ?" (Only userId)
+      user <- fetch currentUserId
+      groups :: [Group] <- sqlQuery "SELECT g.* FROM groups as g INNER JOIN group_user_maps as m ON g.id = m.group_id WHERE m.user_id = ?" (Only currentUserId)
       render DashboardView { .. }
 
 buildUser user = user

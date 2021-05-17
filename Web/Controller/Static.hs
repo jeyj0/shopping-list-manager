@@ -5,5 +5,5 @@ import Web.Controller.Sessions
 
 instance Controller StaticController where
     action StartPageAction = case currentUserOrNothing of
-      Just user -> redirectTo DashboardAction { userId = get #id user }
+      Just user -> redirectTo DashboardAction
       Nothing -> redirectTo NewSessionAction

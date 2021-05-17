@@ -31,6 +31,9 @@ renderGroups groups =
 renderGroup :: Group -> Html
 renderGroup group = [hsx|
   <li>
-    {get #name group}
+    <a href={href}>{get #name group}</a>
   </li>
 |]
+  where
+    groupId = get #id group
+    href = pathTo ShowGroupAction { .. }

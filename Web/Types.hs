@@ -25,7 +25,7 @@ data SessionsController
 
 data UsersController
     = UsersAction
-    | DashboardAction { userId :: !(Id User) }
+    | DashboardAction
     | NewUserAction
     | ShowUserAction { userId :: !(Id User) }
     | CreateUserAction
