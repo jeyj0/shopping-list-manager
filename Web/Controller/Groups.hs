@@ -3,6 +3,7 @@ module Web.Controller.Groups where
 import Web.Controller.Prelude
 import Web.View.Groups.New
 import Web.View.Groups.Show
+import Application.ControllerFunctions
 
 instance Controller GroupsController where
     beforeAction = ensureIsUser
@@ -15,7 +16,7 @@ instance Controller GroupsController where
     action ShowGroupAction { groupId } = do
         group <- fetch groupId
         user <- fetch currentUserId
-        users :: [User] <- sqlQuery "SELECT u.* FROM users as u INNER JOIN group_user_maps as m ON m.user_id = u.id WHERE m.group_id = ?" (Only groupId)
+        users :: [User] <- groupMembers groupId
         render ShowView { .. }
 
     action CreateGroupAction = do

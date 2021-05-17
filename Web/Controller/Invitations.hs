@@ -4,36 +4,53 @@ import Web.Controller.Prelude
 import Web.View.Invitations.Index
 import Web.View.Invitations.New
 import Web.View.Invitations.Show
+import Application.ControllerFunctions
 
 instance Controller InvitationsController where
-    action InvitationsAction = do
-        invitations <- query @Invitation |> fetch
-        render IndexView { .. }
+  beforeAction = ensureIsUser
 
-    action NewInvitationAction = do
-        let invitation = newRecord
-        render NewView { .. }
+  action InvitationsAction = do
+      invitations <- query @Invitation |> fetch
+      render IndexView { .. }
 
-    action ShowInvitationAction { invitationId } = do
-        invitation <- fetch invitationId
-        render ShowView { .. }
+  action NewInvitationAction { groupId } = do
+      let invitation = newRecord
+            |> set #groupId groupId
+      usersInGroup <- groupMembers groupId
+      users <- query @User
+        |> filterWhereNotIn (#id, currentUserId:(map (get #id) usersInGroup))
+        |> fetch
+      group <- fetch groupId
+      render NewView { .. }
 
-    action CreateInvitationAction = do
-        let invitation = newRecord @Invitation
-        invitation
-            |> buildInvitation
-            |> ifValid \case
-                Left invitation -> render NewView { .. } 
-                Right invitation -> do
-                    invitation <- invitation |> createRecord
-                    setSuccessMessage "Invitation created"
-                    redirectTo InvitationsAction
+  action ShowInvitationAction { invitationId } = do
+      invitation <- fetch invitationId
+      render ShowView { .. }
 
-    action DeleteInvitationAction { invitationId } = do
-        invitation <- fetch invitationId
-        deleteRecord invitation
-        setSuccessMessage "Invitation deleted"
-        redirectTo InvitationsAction
+  action CreateInvitationAction = do
+      let invitation = newRecord @Invitation
+      invitation
+          |> buildInvitation
+          |> set #byUserId currentUserId
+          |> ifValid \case
+              Left invitation -> do
+                let groupId = get #groupId invitation
+                usersInGroup <- groupMembers groupId
+                users <- query @User
+                  |> filterWhereNotIn (#id, currentUserId:(map (get #id) usersInGroup))
+                  |> fetch
+                group <- fetch groupId
+                render NewView { .. } 
+              Right invitation -> do
+                  invitation <- invitation |> createRecord
+                  setSuccessMessage "Invitation created"
+                  redirectTo InvitationsAction
+
+  action DeleteInvitationAction { invitationId } = do
+      invitation <- fetch invitationId
+      deleteRecord invitation
+      setSuccessMessage "Invitation deleted"
+      redirectTo InvitationsAction
 
 buildInvitation invitation = invitation
     |> fill @["userId","groupId","byUserId"]

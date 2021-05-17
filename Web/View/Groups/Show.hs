@@ -20,7 +20,10 @@ instance View ShowView where
     <ul>
       {forEach users renderUser}
     </ul>
+    <a class="btn btn-primary" href={inviteHref}>Invite more</a>
   |]
+    where
+      inviteHref = pathTo NewInvitationAction { groupId = get #id group }
 
 renderUser :: User -> Html
 renderUser user = [hsx|

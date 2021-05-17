@@ -20,6 +20,7 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
     <title>App</title>
 </head>
 <body>
+    <a href={pathTo DeleteSessionAction} class="js-delete js-delete-no-confirm" style="position: absolute; padding:1rem; top:0;right:0;">Logout</a>
     <div class="container mt-4">
         {renderFlashMessages}
         {inner}

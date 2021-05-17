@@ -31,8 +31,7 @@ data UsersController
     deriving (Eq, Show, Data)
 
 data GroupsController
-    = GroupsAction
-    | NewGroupAction
+    = NewGroupAction
     | ShowGroupAction { groupId :: !(Id Group) }
     | CreateGroupAction
     | DeleteGroupAction { groupId :: !(Id Group) }
@@ -40,7 +39,7 @@ data GroupsController
 
 data InvitationsController
     = InvitationsAction
-    | NewInvitationAction
+    | NewInvitationAction { groupId :: !(Id Group) }
     | ShowInvitationAction { invitationId :: !(Id Invitation) }
     | CreateInvitationAction
     | DeleteInvitationAction { invitationId :: !(Id Invitation) }
