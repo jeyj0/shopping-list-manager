@@ -1,5 +1,6 @@
 module Web.Controller.Users where
 
+import Database.PostgreSQL.Simple.FromRow
 import Web.Controller.Prelude
 import Web.View.Users.New
 import Web.View.Users.Dashboard
@@ -39,7 +40,24 @@ instance Controller UsersController where
       groups :: [Group] <- sqlQuery
         "SELECT g.* FROM groups as g INNER JOIN group_user_maps as m ON g.id = m.group_id WHERE m.user_id = ?"
         (Only currentUserId)
+
+      invitations :: [ViewInvitation] <- sqlQuery (
+        "SELECT i.id, g.name AS group_name, u.email AS by_user_email " <>
+        "FROM invitations AS i " <>
+        "INNER JOIN groups AS g ON g.id = i.group_id " <>
+        "INNER JOIN users AS u ON i.by_user_id = u.id " <>
+        "WHERE i.user_id = ?"
+        ) (Only currentUserId)
+    
       render DashboardView { .. }
 
 buildUser user = user
     |> fill @["email","passwordHash","failedLoginAttempts"]
+
+instance FromRow ViewInvitation where
+  fromRow = do
+    id <- field
+    groupName <- field
+    byUserEmail <- field
+    let viewInvitation = ViewInvitation { .. }
+    pure viewInvitation
