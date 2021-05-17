@@ -16,7 +16,7 @@ instance View ShowView where
       </ol>
     </nav>
     <h1>{get #name group}</h1>
-    <h2>Users</h2>
+    <h2>Members</h2>
     <ul>
       {forEach users renderUser}
     </ul>
