@@ -22,3 +22,5 @@ ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_unique_map UNIQUE (us
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 CREATE INDEX group_user_maps_map_ids ON group_user_maps (user_id, group_id);
+CREATE INDEX group_user_maps_user_id ON group_user_maps (user_id);
+CREATE INDEX group_user_maps_group_id ON group_user_maps (group_id);
