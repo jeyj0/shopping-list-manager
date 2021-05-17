@@ -12,7 +12,7 @@ instance View (NewView User) where
             <div style="max-width: 400px" class="mx-auto mb-5">
               <h5>Please login</h5>
               {renderForm user}
-              <a href={pathTo CreateUserAction}>No Account yet?</a>
+              <a href={pathTo NewUserAction}>No Account yet?</a>
             </div>
           </div>
         </div>

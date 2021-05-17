@@ -18,5 +18,7 @@ CREATE TABLE group_user_maps (
     user_id UUID NOT NULL,
     group_id UUID NOT NULL
 );
+ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_unique_map UNIQUE (user_id, group_id);
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
+CREATE INDEX group_user_maps_map_ids ON group_user_maps (user_id, group_id);

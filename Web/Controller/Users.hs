@@ -60,6 +60,10 @@ instance Controller UsersController where
         redirectTo UsersAction
 
     action DashboardAction { userId } = do
+      ensureIsUser
+
+      accessDeniedUnless $ userId == currentUserId
+      
       user <- fetch userId
         -- >>= fetchRelated #userGroupMaps
         -- >>= fetchRelated #groups
