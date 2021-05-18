@@ -64,5 +64,6 @@ data RecipesController
     | CreateRecipeAction
     | EditRecipeAction { recipeId :: !(Id Recipe) }
     | UpdateRecipeAction { recipeId :: !(Id Recipe) }
+    | AddIngredientAction { recipeId :: !(Id Recipe) }
     | DeleteRecipeAction { recipeId :: !(Id Recipe) }
     deriving (Eq, Show, Data)
