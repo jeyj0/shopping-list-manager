@@ -42,5 +42,7 @@ data InvitationsController
     | NewInvitationAction { groupId :: !(Id Group) }
     | ShowInvitationAction { invitationId :: !(Id Invitation) }
     | CreateInvitationAction
+    | AcceptInvitationAction { invitationId :: !(Id Invitation) }
+    | DeclineInvitationAction { invitationId :: !(Id Invitation) }
     | DeleteInvitationAction { invitationId :: !(Id Invitation) }
     deriving (Eq, Show, Data)

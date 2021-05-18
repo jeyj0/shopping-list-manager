@@ -32,10 +32,13 @@ renderInvitation :: ViewInvitation -> Html
 renderInvitation invitation = [hsx|
   <div class="alert alert-primary">
     {get #byUserEmail invitation} has invited you to join the {get #groupName invitation} group!
-    <a class="btn btn-primary" href="">Accept</a>
-    <a class="btn btn-secondary" href="">Decline</a>
+    <a class="btn btn-primary" data-turbolinks-preload="false" href={acceptHref}>Accept</a>
+    <a class="btn btn-secondary" data-turbolinks-preload="false" href={declineHref}>Decline</a>
   </div>
 |]
+  where
+    acceptHref = pathTo AcceptInvitationAction { invitationId = get #id invitation }
+    declineHref = pathTo DeclineInvitationAction { invitationId = get #id invitation }
 
 renderGroups :: [Group] -> Html
 renderGroups [] = [hsx|You are in no groups.|]

@@ -44,7 +44,28 @@ instance Controller InvitationsController where
               Right invitation -> do
                   invitation <- invitation |> createRecord
                   setSuccessMessage "Invitation created"
-                  redirectTo InvitationsAction
+                  redirectTo DashboardAction
+
+  action AcceptInvitationAction { invitationId } = do
+    invitation <- fetch invitationId
+    let userId = get #userId invitation
+        groupId = get #groupId invitation
+
+    accessDeniedUnless $ userId == currentUserId
+
+    withTransaction do
+      let groupUserMap = newRecord @GroupUserMap
+      groupUserMap
+        |> set #userId userId
+        |> set #groupId groupId
+        |> createRecord
+      deleteRecordById @Invitation $ get #id invitation
+
+    redirectTo DashboardAction
+
+  action DeclineInvitationAction { invitationId } = do
+    deleteRecordById @Invitation invitationId
+    redirectTo DashboardAction
 
   action DeleteInvitationAction { invitationId } = do
       invitation <- fetch invitationId

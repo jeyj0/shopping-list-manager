@@ -48,7 +48,7 @@ instance Controller UsersController where
         "INNER JOIN users AS u ON i.by_user_id = u.id " <>
         "WHERE i.user_id = ?"
         ) (Only currentUserId)
-    
+
       render DashboardView { .. }
 
 buildUser user = user
