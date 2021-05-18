@@ -75,5 +75,7 @@ data EatingPlansController
     | CreateEatingPlanAction
     | EditEatingPlanAction { eatingPlanId :: !(Id EatingPlan) }
     | UpdateEatingPlanAction { eatingPlanId :: !(Id EatingPlan) }
+    | AddEatingPlanRecipeAction { eatingPlanId :: !(Id EatingPlan) }
+    --  | RemoveEatingPlanRecipeAction { eatingPlanRecipeId :: !(Id EatingPlanRecipe) }
     | DeleteEatingPlanAction { eatingPlanId :: !(Id EatingPlan) }
     deriving (Eq, Show, Data)
