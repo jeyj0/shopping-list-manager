@@ -72,6 +72,8 @@ If there are any issues setting up this environment, refer to the [[https://ihp.
 [[file:data-model.png]]
 
 ** ERM Planned
+[[./data-model-plan.png]]
+
 #+begin_src plantuml :file data-model-plan.png
   package GroupData <<Rectangle>> {
     entity Ingredient {
@@ -116,7 +118,7 @@ If there are any issues setting up this environment, refer to the [[https://ihp.
   User ||--o{ Invitation : invites_to
   Group ||--o{ Invitation : invites_into
 
-  Ingredient }o--o{ Shop : sells
+  Ingredient }o--o{ Shop : sells (in amount)
   ShoppingList }o--|| Shop : for
 
   Ingredient }o--o{ Recipe : used_in
