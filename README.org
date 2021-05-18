@@ -57,15 +57,15 @@ If there are any issues setting up this environment, refer to the [[https://ihp.
        name
   }
 
-  User }|--|{ Group : member
-  User --|{ Invitation : creates
-  User -- Invitation : invites_to
-  Group -- Invitation : invites_into
+  User }o--o{ Group : member
+  User ||--o{ Invitation : creates
+  User ||--|| Invitation : invites_to
+  Group ||--|| Invitation : invites_into
 
-  Ingredient }|--|{ Recipe : used_in
-  EatingPlan }|--|{ Recipe : planned_in
-  ShoppingList }|--|{ EatingPlan : for
-  ShoppingList }|--|{ Ingredient : additionally_contains
+  Ingredient }o--o{ Recipe : used_in
+  EatingPlan }o--o{ Recipe : planned_in
+  ShoppingList }o--o{ EatingPlan : for
+  ShoppingList }o--o{ Ingredient : additionally_contains
 #+end_src
 
 #+RESULTS:
