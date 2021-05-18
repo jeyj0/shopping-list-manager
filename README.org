@@ -23,39 +23,47 @@ If there are any issues setting up this environment, refer to the [[https://ihp.
 #+begin_src plantuml :file data-model.png
   package GroupData <<Rectangle>> {
     entity Ingredient {
+	{static} id
 	name
     }
     entity Recipe {
+	{static} id
 	name
     }
     entity EatingPlan {
+	{static} id
 	name
     }
     entity ShoppingList {
+	{static} id
 	name
     }
   }
   entity User {
+       {static} id
        email
-       password (hash)
+       password_hash
   }
   entity Invitation {
-       user_id
-       group_id
-       by_user_id
+       {static} id
+       {abstract} user_id
+       {abstract} group_id
+       {abstract} by_user_id
   }
   entity Group {
+       {static} id
        name
   }
 
-  User }|--|{ Group
-  User }|--|{ Invitation
-  User }|--|{ Invitation
-  Group }|--|{ Invitation
+  User }|--|{ Group : member
+  User --|{ Invitation : creates
+  User -- Invitation : invites_to
+  Group -- Invitation : invites_into
 
-  EatingPlan }|--|{ Recipe
-  ShoppingList }|--|{ EatingPlan
-  ShoppingList }|--|{ Ingredient
+  Ingredient }|--|{ Recipe : used_in
+  EatingPlan }|--|{ Recipe : planned_in
+  ShoppingList }|--|{ EatingPlan : for
+  ShoppingList }|--|{ Ingredient : additionally_contains
 #+end_src
 
 #+RESULTS:
