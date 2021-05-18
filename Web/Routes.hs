@@ -24,3 +24,6 @@ instance AutoRoute RecipesController
 
 instance AutoRoute EatingPlansController
 
+
+instance AutoRoute ShoppingListsController
+

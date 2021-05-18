@@ -79,3 +79,13 @@ data EatingPlansController
     --  | RemoveEatingPlanRecipeAction { eatingPlanRecipeId :: !(Id EatingPlanRecipe) }
     | DeleteEatingPlanAction { eatingPlanId :: !(Id EatingPlan) }
     deriving (Eq, Show, Data)
+
+data ShoppingListsController
+    = ShoppingListsAction
+    | NewShoppingListAction { groupId :: !(Id Group) }
+    | ShowShoppingListAction { shoppingListId :: !(Id ShoppingList) }
+    | CreateShoppingListAction
+    | EditShoppingListAction { shoppingListId :: !(Id ShoppingList) }
+    | UpdateShoppingListAction { shoppingListId :: !(Id ShoppingList) }
+    | DeleteShoppingListAction { shoppingListId :: !(Id ShoppingList) }
+    deriving (Eq, Show, Data)
