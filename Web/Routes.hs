@@ -15,3 +15,6 @@ instance AutoRoute GroupsController
 
 instance AutoRoute InvitationsController
 
+
+instance AutoRoute IngredientsController
+

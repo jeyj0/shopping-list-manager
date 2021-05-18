@@ -46,3 +46,13 @@ data InvitationsController
     | DeclineInvitationAction { invitationId :: !(Id Invitation) }
     | DeleteInvitationAction { invitationId :: !(Id Invitation) }
     deriving (Eq, Show, Data)
+
+data IngredientsController
+    = IngredientsAction
+    | NewIngredientAction { groupId :: !(Id Group) }
+    | ShowIngredientAction { ingredientId :: !(Id Ingredient) }
+    | CreateIngredientAction
+    | EditIngredientAction { ingredientId :: !(Id Ingredient) }
+    | UpdateIngredientAction { ingredientId :: !(Id Ingredient) }
+    | DeleteIngredientAction { ingredientId :: !(Id Ingredient) }
+    deriving (Eq, Show, Data)
