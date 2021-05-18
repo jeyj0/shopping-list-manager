@@ -87,5 +87,6 @@ data ShoppingListsController
     | CreateShoppingListAction
     | EditShoppingListAction { shoppingListId :: !(Id ShoppingList) }
     | UpdateShoppingListAction { shoppingListId :: !(Id ShoppingList) }
+    | AddShoppingListEatingPlanAction { shoppingListId :: !(Id ShoppingList) }
     | DeleteShoppingListAction { shoppingListId :: !(Id ShoppingList) }
     deriving (Eq, Show, Data)
