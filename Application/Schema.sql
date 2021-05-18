@@ -65,10 +65,17 @@ CREATE TABLE shopping_list_eating_plans (
     shopping_list_id UUID NOT NULL,
     eating_plan_id UUID NOT NULL
 );
+CREATE TABLE extra_items (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    shopping_list_id UUID NOT NULL,
+    ingredient_id UUID NOT NULL
+);
 ALTER TABLE eating_plan_recipes ADD CONSTRAINT eating_plan_recipes_ref_eating_plan_id FOREIGN KEY (eating_plan_id) REFERENCES eating_plans (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plan_recipes ADD CONSTRAINT eating_plan_recipes_ref_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plans ADD CONSTRAINT eating_plans_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plans ADD CONSTRAINT eating_plans_unique_name_in_group UNIQUE(group_id, name);
+ALTER TABLE extra_items ADD CONSTRAINT extra_items_ref_ingredient_id FOREIGN KEY (ingredient_id) REFERENCES ingredients (id) ON DELETE NO ACTION;
+ALTER TABLE extra_items ADD CONSTRAINT extra_items_ref_shopping_list_id FOREIGN KEY (shopping_list_id) REFERENCES shopping_lists (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_unique_map UNIQUE(user_id, group_id);

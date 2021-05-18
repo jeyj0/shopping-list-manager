@@ -5,6 +5,8 @@ data EditView = EditView
   { shoppingList :: ShoppingList
   , availablePlans :: [EatingPlan]
   , plans :: [EatingPlan]
+  , availableExtraItems :: [Ingredient]
+  , extraItems :: [Ingredient]
   }
 
 instance View EditView where
@@ -16,6 +18,7 @@ instance View EditView where
         <h1>Edit ShoppingList</h1>
         {renderForm shoppingList}
         {renderPlansForm shoppingList availablePlans plans}
+        {renderExtraItemsForm shoppingList availableExtraItems extraItems}
     |]
       where
         groupHref = pathTo ShowGroupAction { groupId = get #groupId shoppingList }
@@ -27,6 +30,36 @@ renderForm shoppingList = formFor shoppingList [hsx|
     {submitButton}
 |]
 
+renderExtraItemsForm :: ShoppingList -> [Ingredient] -> [Ingredient] -> Html
+renderExtraItemsForm shoppingList availableExtraItems extraItems = [hsx|
+  <h2>Extra Items</h2>
+  <ul>
+    {forEach extraItems renderExtraItemItem}
+  </ul>
+  <form method="POST" action={formAction}>
+    <select name="ingredientId">
+      {forEach availableExtraItems renderExtraItemOption}
+    </select>
+    <button class="btn btn-primary" type="submit">Add Extra Item</button>
+    <p>Item not in list? <a href={createIngredientHref}>Create it</a></p>
+  </form>
+|]
+  where
+    shoppingListId = get #id shoppingList
+    formAction = pathTo AddExtraItemAction { .. }
+    groupId = get #groupId shoppingList
+    createIngredientHref = pathTo NewIngredientAction { .. }
+
+renderExtraItemItem :: Ingredient -> Html
+renderExtraItemItem item = [hsx|
+  <li>{get #name item}</li>
+|]
+  
+renderExtraItemOption :: Ingredient -> Html
+renderExtraItemOption item = [hsx|
+  <option value={show $ get #id item}>{get #name item}</option>
+|]
+  
 renderPlansForm :: ShoppingList -> [EatingPlan] -> [EatingPlan] -> Html
 renderPlansForm shoppingList availablePlans plans = [hsx|
   <h2>Eating Plans</h2>

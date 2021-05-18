@@ -23,6 +23,14 @@ plansNotInList listId = do
         "AND p.group_id = (SELECT group_id FROM shopping_lists WHERE id = ?)"
   sqlQuery sql $ (listId, listId)
 
+findExtraItems :: (?modelContext::ModelContext) => Id ShoppingList -> IO [Ingredient]
+findExtraItems shoppingListId = do
+  let sql = "SELECT i.* " <>
+            "FROM ingredients AS i " <>
+            "INNER JOIN extra_items AS ei ON ei.ingredient_id = i.id " <>
+            "WHERE ei.shopping_list_id = ?"
+  sqlQuery sql $ Only shoppingListId
+  
 instance Controller ShoppingListsController where
     action ShoppingListsAction = do
         shoppingLists <- query @ShoppingList |> fetch
@@ -41,6 +49,9 @@ instance Controller ShoppingListsController where
         shoppingList <- fetch shoppingListId
         availablePlans <- plansNotInList shoppingListId
         plans <- shoppingListPlans shoppingListId
+        extraItems <- findExtraItems shoppingListId
+        availableExtraItems <- query @Ingredient
+          |> findManyBy #groupId (get #groupId shoppingList)
         render EditView { .. }
 
     action UpdateShoppingListAction { shoppingListId } = do
@@ -51,6 +62,9 @@ instance Controller ShoppingListsController where
                 Left shoppingList -> do
                   availablePlans <- plansNotInList shoppingListId
                   plans <- shoppingListPlans shoppingListId
+                  extraItems <- findExtraItems shoppingListId
+                  availableExtraItems <- query @Ingredient
+                    |> findManyBy #groupId (get #groupId shoppingList)
                   render EditView { .. }
                 Right shoppingList -> do
                     shoppingList <- shoppingList |> updateRecord
@@ -62,6 +76,14 @@ instance Controller ShoppingListsController where
       newRecord @ShoppingListEatingPlan
         |> set #eatingPlanId eatingPlanId
         |> set #shoppingListId shoppingListId
+        |> createRecord
+      redirectTo EditShoppingListAction { .. }
+
+    action AddExtraItemAction { shoppingListId } = do
+      let ingredientId = param @(Id Ingredient) "ingredientId"
+      newRecord @ExtraItem
+        |> set #shoppingListId shoppingListId
+        |> set #ingredientId ingredientId
         |> createRecord
       redirectTo EditShoppingListAction { .. }
 
