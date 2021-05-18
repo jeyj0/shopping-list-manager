@@ -14,7 +14,9 @@ instance Controller GroupsController where
         render NewView { .. }
 
     action ShowGroupAction { groupId } = do
-        group <- fetch groupId >>= fetchRelated #ingredients
+        group <- fetch groupId
+          >>= fetchRelated #ingredients
+          >>= fetchRelated #recipes
         user <- fetch currentUserId
         users :: [User] <- groupMembers groupId
         render ShowView { .. }

@@ -18,3 +18,6 @@ instance AutoRoute InvitationsController
 
 instance AutoRoute IngredientsController
 
+
+instance AutoRoute RecipesController
+

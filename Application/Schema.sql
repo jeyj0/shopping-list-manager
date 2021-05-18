@@ -33,6 +33,18 @@ CREATE INDEX invitations_user_id ON invitations (user_id);
 CREATE INDEX invitations_group_id ON invitations (group_id);
 CREATE INDEX invitations_by_user_id ON invitations (by_user_id);
 CREATE INDEX invitations_group_id__by_user_id ON invitations (group_id, by_user_id);
+CREATE TABLE recipes (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    group_id UUID NOT NULL,
+    name TEXT NOT NULL
+);
+CREATE INDEX recipes_group_id_idx ON recipes (group_id);
+CREATE TABLE recipe_ingredients (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    ingredient_id UUID NOT NULL,
+    recipe_id UUID NOT NULL
+);
+CREATE INDEX recipe_ingredients_recipe_id ON recipe_ingredients (recipe_id);
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_unique_map UNIQUE(user_id, group_id);
@@ -41,3 +53,8 @@ ALTER TABLE invitations ADD CONSTRAINT invitations_ref_by_user_id FOREIGN KEY (b
 ALTER TABLE invitations ADD CONSTRAINT invitations_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE invitations ADD CONSTRAINT invitations_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE invitations ADD CONSTRAINT invitations_unique_user_group UNIQUE(user_id, group_id);
+ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_ref_ingredient_id FOREIGN KEY (ingredient_id) REFERENCES ingredients (id) ON DELETE NO ACTION;
+ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_ref_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE NO ACTION;
+ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_unique_map UNIQUE(ingredient_id, recipe_id);
+ALTER TABLE recipes ADD CONSTRAINT recipes_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
+ALTER TABLE recipes ADD CONSTRAINT recipes_unique_name_in_group UNIQUE (group_id, name);
