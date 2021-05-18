@@ -17,6 +17,7 @@ instance Controller GroupsController where
         group <- fetch groupId
           >>= fetchRelated #ingredients
           >>= fetchRelated #recipes
+          >>= fetchRelated #eatingPlans
         user <- fetch currentUserId
         users :: [User] <- groupMembers groupId
         render ShowView { .. }

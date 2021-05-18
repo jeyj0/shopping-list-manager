@@ -45,6 +45,12 @@ CREATE TABLE recipe_ingredients (
     recipe_id UUID NOT NULL
 );
 CREATE INDEX recipe_ingredients_recipe_id ON recipe_ingredients (recipe_id);
+CREATE TABLE eating_plans (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    group_id UUID NOT NULL,
+    name TEXT NOT NULL
+);
+ALTER TABLE eating_plans ADD CONSTRAINT eating_plans_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE group_user_maps ADD CONSTRAINT group_user_maps_unique_map UNIQUE(user_id, group_id);
@@ -57,4 +63,5 @@ ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_ref_ingredient_
 ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_ref_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE NO ACTION;
 ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_unique_map UNIQUE(ingredient_id, recipe_id);
 ALTER TABLE recipes ADD CONSTRAINT recipes_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
-ALTER TABLE recipes ADD CONSTRAINT recipes_unique_name_in_group UNIQUE (group_id, name);
+ALTER TABLE recipes ADD CONSTRAINT recipes_unique_name_in_group UNIQUE(group_id, name);
+ALTER TABLE eating_plans ADD CONSTRAINT eating_plans_unique_name_in_group UNIQUE(group_id, name);

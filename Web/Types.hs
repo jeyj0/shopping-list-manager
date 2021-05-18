@@ -67,3 +67,13 @@ data RecipesController
     | AddIngredientAction { recipeId :: !(Id Recipe) }
     | DeleteRecipeAction { recipeId :: !(Id Recipe) }
     deriving (Eq, Show, Data)
+
+data EatingPlansController
+    = EatingPlansAction
+    | NewEatingPlanAction { groupId :: !(Id Group) }
+    | ShowEatingPlanAction { eatingPlanId :: !(Id EatingPlan) }
+    | CreateEatingPlanAction
+    | EditEatingPlanAction { eatingPlanId :: !(Id EatingPlan) }
+    | UpdateEatingPlanAction { eatingPlanId :: !(Id EatingPlan) }
+    | DeleteEatingPlanAction { eatingPlanId :: !(Id EatingPlan) }
+    deriving (Eq, Show, Data)

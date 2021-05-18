@@ -4,7 +4,7 @@ import Web.View.Prelude
 import Web.Controller.Static
 
 data ShowView = ShowView
-  { group :: Include' ["recipes", "ingredients"] Group
+  { group :: Include' ["recipes", "ingredients", "eatingPlans"] Group
   , users :: [User]
   }
 
@@ -16,6 +16,11 @@ instance View ShowView where
       </ol>
     </nav>
     <h1>{get #name group}</h1>
+    <h2>Eating Plans</h2>
+    <ul>
+      {forEach (get #eatingPlans group) renderPlan}
+    </ul>
+    <a class="btn btn-primary" href={newPlanHref}>New Plan</a>
     <h2>Members</h2>
     <ul>
       {forEach users renderUser}
@@ -33,9 +38,11 @@ instance View ShowView where
     <a class="btn btn-primary" href={newIngredientHref}>Add Ingredient</a>
   |]
     where
-      inviteHref = pathTo NewInvitationAction { groupId = get #id group }
-      newRecipeHref = pathTo NewRecipeAction { groupId = get #id group }
-      newIngredientHref = pathTo NewIngredientAction { groupId = get #id group }
+      groupId = get #id group
+      newPlanHref = pathTo NewEatingPlanAction { .. }
+      inviteHref = pathTo NewInvitationAction { .. }
+      newRecipeHref = pathTo NewRecipeAction { .. }
+      newIngredientHref = pathTo NewIngredientAction { .. }
 
 renderUser :: User -> Html
 renderUser user = [hsx|
@@ -53,3 +60,11 @@ renderRecipe recipe = [hsx|
 |]
   where
     editRecipeHref = pathTo EditRecipeAction { recipeId = get #id recipe }
+
+renderPlan :: EatingPlan -> Html
+renderPlan plan = [hsx|
+  <li><a href={editPlanHref}>{displayName}</a></li>
+|]
+  where
+    editPlanHref = pathTo EditEatingPlanAction { eatingPlanId = get #id plan }
+    displayName = get #name plan
