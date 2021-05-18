@@ -3,7 +3,7 @@ module Web.Controller.Groups where
 import Web.Controller.Prelude
 import Web.View.Groups.New
 import Web.View.Groups.Show
-import Application.ControllerFunctions
+import Web.ControllerFunctions
 
 instance Controller GroupsController where
     beforeAction = ensureIsUser

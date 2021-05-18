@@ -4,7 +4,7 @@ import Web.Controller.Prelude
 import Web.View.Invitations.Index
 import Web.View.Invitations.New
 import Web.View.Invitations.Show
-import Application.ControllerFunctions
+import Web.ControllerFunctions
 
 instance Controller InvitationsController where
   beforeAction = ensureIsUser

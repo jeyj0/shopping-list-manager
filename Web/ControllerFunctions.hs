@@ -1,5 +1,6 @@
-module Application.ControllerFunctions where
+module Web.ControllerFunctions where
 
+import IHP.ControllerPrelude
 import Web.Controller.Prelude
 
 groupMembers :: (?modelContext :: ModelContext) => Id Group -> IO [User]
