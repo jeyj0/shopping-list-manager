@@ -20,6 +20,8 @@ If there are any issues setting up this environment, refer to the [[https://ihp.
 
 * Data Model
 ** ERM
+(output is in [[./data-model.png]])
+   
 #+begin_src plantuml :file data-model.png
   package GroupData <<Rectangle>> {
     entity Ingredient {
