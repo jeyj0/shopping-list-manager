@@ -1,16 +1,28 @@
 module Web.View.ShoppingLists.Show where
 import Web.View.Prelude
 
-data ShowView = ShowView { shoppingList :: ShoppingList }
+data ShowView = ShowView
+  { shoppingList :: ShoppingList
+  , items :: [Ingredient]
+  }
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
         <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href={ShoppingListsAction}>ShoppingLists</a></li>
-                <li class="breadcrumb-item active">Show ShoppingList</li>
-            </ol>
+          <a href={DashboardAction} class="mr-4">Dashboard</a>
+          <a href={groupHref}>Back to Group</a>
         </nav>
-        <h1>Show ShoppingList</h1>
-        <p>{shoppingList}</p>
+        <h1>Shopping List: {get #name shoppingList}</h1>
+        <ul>
+          {forEach items renderItem}
+        </ul>
+        <a href={editHref}>Edit</a>
     |]
+      where
+        groupHref = pathTo ShowGroupAction { groupId = get #groupId shoppingList }
+        editHref = pathTo EditShoppingListAction { shoppingListId = get #id shoppingList }
+
+renderItem :: Ingredient -> Html
+renderItem item = [hsx|
+  <li>{get #name item}</li>
+|]

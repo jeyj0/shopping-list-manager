@@ -77,7 +77,9 @@ renderPlan plan = [hsx|
 
 renderList :: ShoppingList -> Html
 renderList list = [hsx|
-  <li><a href={editListHref}>{get #name list}</a></li>
+  <li><a href={showListHref} class="mr-4">{get #name list}</a><a href={editListHref}>Edit</a></li>
 |]
   where
-    editListHref = pathTo EditShoppingListAction { shoppingListId = get #id list }
+    shoppingListId = get #id list
+    editListHref = pathTo EditShoppingListAction { .. }
+    showListHref = pathTo ShowShoppingListAction { .. }

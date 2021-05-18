@@ -31,6 +31,16 @@ findExtraItems shoppingListId = do
             "WHERE ei.shopping_list_id = ?"
   sqlQuery sql $ Only shoppingListId
   
+findRecipeItems :: (?modelContext :: ModelContext) => Id ShoppingList -> IO [Ingredient]
+findRecipeItems shoppingListId = do
+  let sql = "SELECT i.* " <>
+            "FROM ingredients AS i " <>
+            "INNER JOIN recipe_ingredients AS ri ON ri.ingredient_id = i.id " <>
+            "INNER JOIN eating_plan_recipes AS pr ON pr.recipe_id = ri.recipe_id " <>
+            "INNER JOIN shopping_list_eating_plans AS lp ON lp.eating_plan_id = pr.eating_plan_id " <>
+            "WHERE lp.shopping_list_id = ?"
+  sqlQuery sql $ Only shoppingListId
+
 instance Controller ShoppingListsController where
     action ShoppingListsAction = do
         shoppingLists <- query @ShoppingList |> fetch
@@ -43,6 +53,9 @@ instance Controller ShoppingListsController where
 
     action ShowShoppingListAction { shoppingListId } = do
         shoppingList <- fetch shoppingListId
+        extraItems <- findExtraItems shoppingListId
+        recipeItems <- findRecipeItems shoppingListId
+        let items = extraItems ++ recipeItems
         render ShowView { .. }
 
     action EditShoppingListAction { shoppingListId } = do
