@@ -55,6 +55,7 @@ data IngredientsController
     | EditIngredientAction { ingredientId :: !(Id Ingredient) }
     | UpdateIngredientAction { ingredientId :: !(Id Ingredient) }
     | DeleteIngredientAction { ingredientId :: !(Id Ingredient) }
+    | SetPackagesAction { ingredientId :: !(Id Ingredient) }
     deriving (Eq, Show, Data)
 
 data RecipesController

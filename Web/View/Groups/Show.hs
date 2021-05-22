@@ -63,8 +63,11 @@ renderUser user = [hsx|
 
 renderIngredient :: Ingredient -> Html
 renderIngredient ingredient = [hsx|
-  <li>{get #name ingredient}</li>
+  <li><a href={ingredientHref}>{get #name ingredient}</a></li>
 |]
+  where
+    ingredientId = get #id ingredient
+    ingredientHref = pathTo ShowIngredientAction { .. }
 
 renderRecipe :: Recipe -> Html
 renderRecipe recipe = [hsx|

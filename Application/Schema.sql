@@ -80,6 +80,12 @@ CREATE TABLE categories (
     shop_id UUID NOT NULL,
     name TEXT NOT NULL
 );
+CREATE TABLE packages (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    shop_id UUID NOT NULL,
+    category_id UUID DEFAULT NULL,
+    ingredient_id UUID NOT NULL
+);
 ALTER TABLE categories ADD CONSTRAINT categories_ref_shop_id FOREIGN KEY (shop_id) REFERENCES shops (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plan_recipes ADD CONSTRAINT eating_plan_recipes_ref_eating_plan_id FOREIGN KEY (eating_plan_id) REFERENCES eating_plans (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plan_recipes ADD CONSTRAINT eating_plan_recipes_ref_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE NO ACTION;
@@ -95,6 +101,9 @@ ALTER TABLE invitations ADD CONSTRAINT invitations_ref_by_user_id FOREIGN KEY (b
 ALTER TABLE invitations ADD CONSTRAINT invitations_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
 ALTER TABLE invitations ADD CONSTRAINT invitations_ref_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE NO ACTION;
 ALTER TABLE invitations ADD CONSTRAINT invitations_unique_user_group UNIQUE(user_id, group_id);
+ALTER TABLE packages ADD CONSTRAINT packages_ref_category_id FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE NO ACTION;
+ALTER TABLE packages ADD CONSTRAINT packages_ref_ingredient_id FOREIGN KEY (ingredient_id) REFERENCES ingredients (id) ON DELETE NO ACTION;
+ALTER TABLE packages ADD CONSTRAINT packages_ref_shop_id FOREIGN KEY (shop_id) REFERENCES shops (id) ON DELETE NO ACTION;
 ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_ref_ingredient_id FOREIGN KEY (ingredient_id) REFERENCES ingredients (id) ON DELETE NO ACTION;
 ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_ref_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE NO ACTION;
 ALTER TABLE recipe_ingredients ADD CONSTRAINT recipe_ingredients_unique_map UNIQUE(ingredient_id, recipe_id);

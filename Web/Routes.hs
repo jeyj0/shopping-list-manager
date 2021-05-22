@@ -32,4 +32,3 @@ instance AutoRoute ShopsController
 
 
 instance AutoRoute CategoriesController
-
