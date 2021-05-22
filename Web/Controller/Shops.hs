@@ -18,6 +18,7 @@ instance Controller ShopsController where
 
     action ShowShopAction { shopId } = do
         shop <- fetch shopId
+          >>= fetchRelated #categories
         render ShowView { .. }
 
     action EditShopAction { shopId } = do

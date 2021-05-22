@@ -75,6 +75,12 @@ CREATE TABLE shops (
     name TEXT NOT NULL,
     group_id UUID NOT NULL
 );
+CREATE TABLE categories (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    shop_id UUID NOT NULL,
+    name TEXT NOT NULL
+);
+ALTER TABLE categories ADD CONSTRAINT categories_ref_shop_id FOREIGN KEY (shop_id) REFERENCES shops (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plan_recipes ADD CONSTRAINT eating_plan_recipes_ref_eating_plan_id FOREIGN KEY (eating_plan_id) REFERENCES eating_plans (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plan_recipes ADD CONSTRAINT eating_plan_recipes_ref_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plans ADD CONSTRAINT eating_plans_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;

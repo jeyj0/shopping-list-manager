@@ -30,3 +30,6 @@ instance AutoRoute ShoppingListsController
 
 instance AutoRoute ShopsController
 
+
+instance AutoRoute CategoriesController
+

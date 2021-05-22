@@ -101,3 +101,13 @@ data ShopsController
     | UpdateShopAction { shopId :: !(Id Shop) }
     | DeleteShopAction { shopId :: !(Id Shop) }
     deriving (Eq, Show, Data)
+
+data CategoriesController
+    = CategoriesAction
+    | NewCategoryAction { shopId :: !(Id Shop) }
+    | ShowCategoryAction { categoryId :: !(Id Category) }
+    | CreateCategoryAction
+    | EditCategoryAction { categoryId :: !(Id Category) }
+    | UpdateCategoryAction { categoryId :: !(Id Category) }
+    | DeleteCategoryAction { categoryId :: !(Id Category) }
+    deriving (Eq, Show, Data)

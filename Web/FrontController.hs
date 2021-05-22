@@ -7,6 +7,7 @@ import IHP.LoginSupport.Middleware
 import Web.Controller.Sessions
 
 -- Controller Imports
+import Web.Controller.Categories
 import Web.Controller.Shops
 import Web.Controller.ShoppingLists
 import Web.Controller.EatingPlans
@@ -22,6 +23,7 @@ instance FrontController WebApplication where
         [ startPage StartPageAction
         , parseRoute @SessionsController
         -- Generator Marker
+        , parseRoute @CategoriesController
         , parseRoute @ShopsController
         , parseRoute @ShoppingListsController
         , parseRoute @EatingPlansController
