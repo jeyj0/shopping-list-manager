@@ -70,6 +70,11 @@ CREATE TABLE extra_items (
     shopping_list_id UUID NOT NULL,
     ingredient_id UUID NOT NULL
 );
+CREATE TABLE shops (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    group_id UUID NOT NULL
+);
 ALTER TABLE eating_plan_recipes ADD CONSTRAINT eating_plan_recipes_ref_eating_plan_id FOREIGN KEY (eating_plan_id) REFERENCES eating_plans (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plan_recipes ADD CONSTRAINT eating_plan_recipes_ref_recipe_id FOREIGN KEY (recipe_id) REFERENCES recipes (id) ON DELETE NO ACTION;
 ALTER TABLE eating_plans ADD CONSTRAINT eating_plans_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
@@ -92,3 +97,4 @@ ALTER TABLE recipes ADD CONSTRAINT recipes_unique_name_in_group UNIQUE(group_id,
 ALTER TABLE shopping_list_eating_plans ADD CONSTRAINT shopping_list_eating_plans_ref_eating_plan_id FOREIGN KEY (eating_plan_id) REFERENCES eating_plans (id) ON DELETE NO ACTION;
 ALTER TABLE shopping_list_eating_plans ADD CONSTRAINT shopping_list_eating_plans_ref_shopping_list_id FOREIGN KEY (shopping_list_id) REFERENCES shopping_lists (id) ON DELETE NO ACTION;
 ALTER TABLE shopping_lists ADD CONSTRAINT shopping_lists_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;
+ALTER TABLE shops ADD CONSTRAINT shops_ref_group_id FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE NO ACTION;

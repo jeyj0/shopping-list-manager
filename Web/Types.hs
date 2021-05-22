@@ -91,3 +91,13 @@ data ShoppingListsController
     | AddExtraItemAction { shoppingListId :: !(Id ShoppingList) }
     | DeleteShoppingListAction { shoppingListId :: !(Id ShoppingList) }
     deriving (Eq, Show, Data)
+
+data ShopsController
+    = ShopsAction
+    | NewShopAction { groupId :: !(Id Group) }
+    | ShowShopAction { shopId :: !(Id Shop) }
+    | CreateShopAction
+    | EditShopAction { shopId :: !(Id Shop) }
+    | UpdateShopAction { shopId :: !(Id Shop) }
+    | DeleteShopAction { shopId :: !(Id Shop) }
+    deriving (Eq, Show, Data)
